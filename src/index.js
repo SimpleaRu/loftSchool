@@ -86,15 +86,15 @@ function upperProps(obj) {
 function slice(array, from, to) {
     var newArr = [];
     
-        if (to === undefined ) { 
+        if (!(to)) { 
             to = array.length;
         }
         if (to < 0) {
             to = array.length + to;
         } 
-        if (from === undefined ) {from  = 0;}
+        if (!(from)) {from  = 0;}
         if (from < 0 ) {
-            from = (array.length + from);
+            from = array.length + from;
         } 
         for (var i = 0; i < array.length; i++) {
             if (i >= from && i < to ) {
