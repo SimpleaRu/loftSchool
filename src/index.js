@@ -85,28 +85,23 @@ function upperProps(obj) {
  */
 function slice(array, from, to) {
     var newArr = [];
-
-    if (!(to)) { 
-        to = array[array.length-1];
-        to++;
-        
-    }
-    if (!(from)) {from = array[0];}
-    if (from >= 0) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] >= from && array[i] < to ) {
-            newArr.push(array[i]);
-             }
-         }
-    }
-    else {
-        array.reverse();
-        for ( i = 0 ; i < Math.abs(from) ; i++ ) {
-            newArr.push(array[i]);
+    
+        if (to === undefined ) { 
+            to = array.length;
         }
-    }
-
-    return newArr;
+        if (to < 0) {
+            to = array.length + to;
+        } 
+        if (from === undefined ) {from  = 0;}
+        if (from < 0 ) {
+            from = (array.length + from);
+        } 
+        for (var i = 0; i < array.length; i++) {
+            if (i >= from && i < to ) {
+                    newArr.push(array[i]);
+                 }
+             }
+        return newArr;
 }
 
 /*
