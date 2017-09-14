@@ -1,81 +1,83 @@
-/* ДЗ 5 - DOM Events */
+/* ДЗ 1 - Функции */
 
-/**
- * Функция должна добавлять обработчик fn события eventName к элементу target
- *
- * @param {string} eventName - имя события, на которое нужно добавить обработчик
- * @param {Element} target - элемент, на который нужно добавить обработчик
- * @param {function} fn - обработчик
+/*
+ Задание 1:
+
+ Функция должна принимать один аргумент и возвращать его
  */
-function addListener(eventName, target, fn) {
-    target.addEventListener(eventName, fn );
+function returnFirstArgument(arg) {
+    return arg;
 }
 
-/**
- * Функция должна удалять обработчик fn события eventName у элемента target
- *
- * @param {string} eventName - имя события, для которого нужно удалить обработчик
- * @param {Element} target - элемент, у которого нужно удалить обработчик
- * @param {function} fn - обработчик
+/*
+ Задание 2:
+
+ Функция должна принимать два аргумента и возвращать сумму переданных значений
+ Значение по умолчанию второго аргумента должно быть 100
  */
-function removeListener(eventName, target, fn) {
-    target.removeEventListener(eventName, fn );
+function defaultParameterValue(a, b) {
+    b =  b || 100;
+   return a + b;
 }
 
-/**
- * Функция должна добавлять к target обработчик события eventName, который должен отменять действие по умолчанию
- *
- * @param {string} eventName - имя события, для которого нужно удалить обработчик
- * @param {Element} target - элемент, на который нужно добавить обработчик
+/*
+ Задание 3:
+
+ Функция должна возвращать все переданные в нее аргументы в виде массива
+ Количество переданных аргументов заранее неизвестно
  */
-function skipDefault(eventName, target) {
-    target.addEventListener(eventName, function (e) {
-        e.preventDefault();
-    })
+function returnArgumentsArray() {
+    var arr = [];
+    for (var i = 0; i < arguments.length ; i++) {
+        arr.push(arguments[i]);
+        
+    }
+    return arr;
 }
 
-/**
- * Функция должна эмулировать событие click для элемента target
- *
- * @param {Element} target - элемент, на который нужно добавить обработчик
+/*
+ Задание 4:
+
+ Функция должна принимать другую функцию и возвращать результат вызова переданной функции
  */
-function emulateClick(target) {
-    target.click();
+function returnFnResult(fn) {
+    return fn();
 }
 
-/**
- * Функция должна добавить такой обработчик кликов к элементу target
- * который реагирует (вызывает fn) только на клики по элементам BUTTON внутри target
- *
- * @param {Element} target - элемент, на который нужно добавить обработчик
- * @param {function} fn - функция, которую нужно вызвать при клике на элемент BUTTON внутри target
+/*
+ Задание 5:
+
+ Функция должна принимать число (значение по умолчанию - 0) и возвращать функцию (F)
+ При вызове F, переданное число должно быть увеличено на единицу и возвращено из F
  */
-function delegate(target, fn) {
-   
-    target.addEventListener('click', function (e) {
-        if (e.target.tagName == 'BUTTON') {
-            return fn();
-        }
-    })
+function returnCounter(number) {
+    number = number || 0;
+    var F = function () {
+       return number += 1;
+    }
+ return F;   
 }
 
-/**
- * *** Со звездочкой ***
- * Функция должна добавить такой обработчик кликов к элементу target
- * который сработает только один раз и удалится
- * Постарайтесь не создавать глобальных переменных
- *
- * @param {Element} target - элемент, на который нужно добавить обработчик
- * @param {function} fn - обработчик
+/*
+ Задание 6 *:
+
+ Функция должна принимать другую функцию (F) и некоторое количество дополнительных аргументов
+ Функция должна привязать переданные аргументы к функции F и вернуть получившуюся функцию
  */
-function once(target, fn) {
+function bindFunction(fn) {
+    var arg = [];
+    for (var i = 1; i < arguments.length; i++) {
+      arg.push(arguments[i]);
+    }
+    
+    return fn.bind(null, ...arg);
 }
 
 export {
-    addListener,
-    removeListener,
-    skipDefault,
-    emulateClick,
-    delegate,
-    once
-};
+    returnFirstArgument,
+    defaultParameterValue,
+    returnArgumentsArray,
+    returnFnResult,
+    returnCounter,
+    bindFunction
+}
