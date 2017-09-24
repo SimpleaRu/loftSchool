@@ -38,36 +38,96 @@ let addNameInput = homeworkContainer.querySelector('#add-name-input');
 let addValueInput = homeworkContainer.querySelector('#add-value-input');
 let addButton = homeworkContainer.querySelector('#add-button');
 let listTable = homeworkContainer.querySelector('#list-table tbody');
-
+let deleteButton = document.createElement('button');
 
 filterNameInput.addEventListener('keyup', function() {
-    var Str = document.cookie;
-    let obj = {};
-    let arr = Str.split('; ');
-    arr.forEach((item ) => {
-        let arr = item.split('=');
-        obj[arr[0]] = arr[1];
-    });
 
-    for (var key in obj) {
-        listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ key +'</td>'+'<td>'+ obj[key] +'</td>'+'<td>'+'test'+'</td>'+'</tr>';
-    }
+         if (filterNameInput.value == '') {
+            listTable.innerHTML = ''; 
+            for (var key in cookiesParse()) {
+                if (cookiesParse()[key]) {
+                    listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ key +'</td>'+'<td>'+ cookiesParse()[key] +'</td>'+'<td>'+'<button id=del>del</button> '+'</td>'+'</tr>';
+                } 
+            }
+        }
 
+        else {
+
+            let trAll = listTable.querySelectorAll('tr'); 
+               for(var i = 0; i < trAll.length; i++ ) {
+                
+                   if((trAll[i].firstElementChild.textContent != filterNameInput.value) && (trAll[i].firstElementChild.nextElementSibling.textContent != filterNameInput.value) )  {
+                   
+                       trAll[i].remove();
+                       
+               }
+           } 
+        }
+   
 });
 
 addButton.addEventListener('click', () => {
-    let cook = document.cookie;
     let addCookies;
-    let cookiesArr;
+    let counter = 0;
     addCookies = addNameInput.value + '=' + addValueInput.value;
     document.cookie = addCookies;
-  //  listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ addNameInput.value +'</td>'+'<td>'+ addValueInput.value +'</td>'+'<td>'+'test'+'</td>'+'</tr>';
-   
-   
+
+    if (filterNameInput.value == '') { 
+
+        let trAll = listTable.querySelectorAll('tr'); 
+ 
+        for(var i = 0; i < trAll.length; i++ ) { 
+            if (trAll[i].firstElementChild.textContent == addNameInput.value && trAll[i].firstElementChild.nextElementSibling.textContent != addValueInput.value  ) {
+              //  trAll[i].remove();
+              trAll[i].firstElementChild.nextElementSibling.textContent = addValueInput.value;
+            }
+            if (trAll[i].firstElementChild.textContent == addNameInput.value) {
+                counter++;
+            }
+        }
+        console.log(counter);
+        if ( counter == 0) {
+            
+            listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ addNameInput.value +'</td>'+'<td>'+ addValueInput.value +'</td>'+'<td>'+'<button id=del>del</button> '+'</td>'+'</tr>';  
+        }
+    
+    }
+    if (filterNameInput.value != '') {
+        let trAll = listTable.querySelectorAll('tr'); 
+        
+               for(var i = 0; i < trAll.length; i++ ) {
+
+                   if (trAll[i].firstElementChild.textContent == addNameInput.value && trAll[i].firstElementChild.nextElementSibling.textContent != addValueInput.value ) {
+                        trAll[i].remove();
+                   }
+               }
+     }
+
 });
 
+function cookiesParse() {
+        let Str = document.cookie;
+        let obj = {};
+        let arr = Str.split('; ');
+        arr.forEach((item ) => {
+            let arr = item.split('=');
+            obj[arr[0]] = arr[1];
+        });
+    return obj; 
+}
 
-    
+listTable.addEventListener('click', (e) => {
+
+    if(e.target.nodeName == 'BUTTON' ) {
+        var cookieName = e.target.parentElement.parentElement.firstElementChild.textContent;
+     //   console.log(cookieName);
+        document.cookie = cookieName + '=;expires=15/02/2010 00:00:00';
+
+        e.target.parentElement.parentElement.remove();
+    }
+})
+
+ // "username=;expires=15/02/2012 00:00:00"
+
+
  
- // console.log(cookiesParse());
- // listTable.innerHTML = '<tr>'+ '<td>'+ 'sdasdsad' +  '</td>' + '</tr>';
