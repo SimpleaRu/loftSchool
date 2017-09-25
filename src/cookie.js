@@ -38,36 +38,40 @@ let addNameInput = homeworkContainer.querySelector('#add-name-input');
 let addValueInput = homeworkContainer.querySelector('#add-value-input');
 let addButton = homeworkContainer.querySelector('#add-button');
 let listTable = homeworkContainer.querySelector('#list-table tbody');
+let deleteButton = document.createElement('button');
 
 
 filterNameInput.addEventListener('keyup', function() {
-    var Str = document.cookie;
-    let obj = {};
-    let arr = Str.split('; ');
-    arr.forEach((item ) => {
-        let arr = item.split('=');
-        obj[arr[0]] = arr[1];
-    });
-
-    for (var key in obj) {
-        listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ key +'</td>'+'<td>'+ obj[key] +'</td>'+'<td>'+'test'+'</td>'+'</tr>';
+    listTable.innerHTML = '';
+ 
+   for (var key in cookiesParse()) {
+        listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ key +'</td>'+'<td>'+ cookiesParse()[key] +'</td>'+'<td>'+'test'+'</td>'+'</tr>';
     }
-
+    console.log ( filterNameInput != '' );
 });
 
 addButton.addEventListener('click', () => {
-    let cook = document.cookie;
     let addCookies;
-    let cookiesArr;
+    
     addCookies = addNameInput.value + '=' + addValueInput.value;
     document.cookie = addCookies;
+
   //  listTable.innerHTML = listTable.innerHTML + '<tr> '+'<td>'+ addNameInput.value +'</td>'+'<td>'+ addValueInput.value +'</td>'+'<td>'+'test'+'</td>'+'</tr>';
    
-   
+  
 });
 
+function cookiesParse() {
 
-    
+        let Str = document.cookie;
+        let obj = {};
+        let arr = Str.split('; ');
+        arr.forEach((item ) => {
+            let arr = item.split('=');
+            obj[arr[0]] = arr[1];
+        });
+    return obj; 
+}
+console.log(cookiesParse());
+
  
- // console.log(cookiesParse());
- // listTable.innerHTML = '<tr>'+ '<td>'+ 'sdasdsad' +  '</td>' + '</tr>';
