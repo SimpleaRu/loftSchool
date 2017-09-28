@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{htmlWebpackPlugin.options.title}}</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 </head>
 <body>
+<div class="container">
+    <h1 id="headerInfo"></h1>
+
+    <div id="results">
+
+    <img  id="photo" scr="" alt="">
+    </div>
+</div>
+
+<script id="user-template" type="text/x-handlebars-template">
+    <div>
+        <div><b>Список пользователей:</b></div>
+        {{#each list}}
+            <div>{{first_name}} {{last_name}}</div>
+            <img src="{{photo_100}}"/>
+        {{/each}}
+    </div>
+</script>
+
+ {{!-- <script src="src/index.js"></script>  --}}
 </body>
 </html>

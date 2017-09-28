@@ -1,49 +1,63 @@
-/* ДЗ 7.1 - BOM */
+import './main.css';
 
-/**
- * Функция должна создавать окно с указанным именем и размерами
- *
- * @param {number} name - имя окна
- * @param {number} width - ширина окна
- * @param {number} height - высота окна
- * @return {Window}
- */
-function createWindow(name, width, height) {
-    let size =  'width=' + width + ',' + 'height=' +  height;
-    return window.open('', name, size );
+function api(method, params) {
+    return new Promise((resolve, reject) => {
+        VK.api(method, params, data => {
+            if (data.error) {
+                reject(new Error(data.error.error_msg));
+            } else {
+                resolve(data.response);
+            }
+        });
+    });
 }
 
-/**
- * Функция должна закрывать указанное окно
- *
- * @param {Window} window - окно, размер которого надо изменить
- */
-function closeWindow(window) {
-    window.close();
-}
+const promise = new Promise((resolve, reject) => {
+    VK.init({
+        apiId: 6198589 
+    });
 
-/**
- * Функция должна создавать cookie с указанными именем и значением
- *
- * @param name - имя
- * @param value - значение
- */
-function createCookie(name, value) {
-    return document.cookie = `${name}=${value}`;
-}
+    VK.Auth.login(data => {
+        if (data.session) {
+            resolve(data);
+        } else {
+            reject(new Error('Не удалось авторизоваться'));
+        }
+    }, 16);
+}); 
 
-/**
- * Функция должна удалять cookie с указанным именем
- *
- * @param name - имя=)
- */
-function deleteCookie(name) {
-    document.cookie = name + '= ; expires= Fri, 31 Dec 1980 23:59:59 GMT';
-}
+promise
+    .then(() => {
+        return api('users.get', { v: 5.68, fields: 'first_name, last_name, photo_100', name_case: 'gen' });
+    })
+    .then(data => {
+        const [user] = data;
+     /* 
+        headerInfo.innerHTML += `<div><img src=${user.photo_100}></div>`; */
+        headerInfo.innerHTML += `Друзья на странице ${user.first_name} ${user.last_name}`;
+       
 
-export {
-    createWindow,
-    closeWindow,
-    createCookie,
-    deleteCookie
-};
+        return api('friends.get', { v: 5.68, fields: 'first_name, last_name, photo_100' })
+    })
+ /*    .then(data => {
+        const templateElement = document.querySelector('#user-template');
+        const source = templateElement.innerHTML,
+            render = Handlebars.compile(source),
+            template = render({ list: data.items });
+
+        results.innerHTML = template;
+    })
+    .catch(function (e) {
+        alert('Ошибка: ' + e.message);
+    }); */
+    .then( (data) => {
+    var photo = document.querySelector('#photo');
+     var friendList =  document.querySelector('#results');
+        for (var i = 0; i < data.items.length; i++) {
+            friendList.innerHTML += `<div> <img src=${data.items[i].photo_100}> </div>`;
+            friendList.innerHTML += data.items[i].last_name;
+        
+        }
+    })
+
+ 
