@@ -1,7 +1,6 @@
 import './main.css';
 const render = require('../ext.hbs');
 
-
 function api(method, params) {
     return new Promise((resolve, reject) => {
         VK.api(method, params, data => {
@@ -40,18 +39,18 @@ promise
        
 
         return api('friends.get', { v: 5.68, fields: 'first_name, last_name, photo_100' })
-    });
- /*    .then(data => {
+    })
+    .then(data => {
         const templateElement = document.querySelector('#user-template');
         const source = templateElement.innerHTML,
-            render = Handlebars.compile(source),
+         //   render = Handlebars.compile(source),
             template = render({ list: data.items });
 
         results.innerHTML = template;
     })
     .catch(function (e) {
         alert('Ошибка: ' + e.message);
-    }); */
+    });
 /*     .then( (data) => {
     var photo = document.querySelector('#photo');
      var friendList =  document.querySelector('#results');
@@ -62,7 +61,7 @@ promise
         }
     }) */
 
-    
+   /*  
     var check =  document.querySelector('#check');
 
     var source =  document.querySelector('#entry-template').innerHTML;
@@ -72,5 +71,5 @@ promise
     var template = render(context); 
     
     check.innerHTML = template;
-
+ */
  
