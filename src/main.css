@@ -1,14 +1,27 @@
-.first {
-    width: 100px;
-    height: 100px;
-    background: green;
-  }
-  #result {
-    width: 100px;
-    height: 100px;
-    background: green;
-  }
-  .entry {
-    background: green;
 
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  #leftBar {
+    width: 300px;
+    height: 325px;
+    overflow: scroll;
+    display: inline-block;
+  }
+  #avatar {
+    height: 50px;
+  }
+  #title {
+    height: 50px;
+    width: 620px;
+    background: #ff8663;
+    text-align: center;
+    color:white;
+  
+  }
+  #rightBar {
+    width: 300px;
+    height: 325px;
+    overflow: scroll;
+    display: inline-block;
   }

@@ -1,5 +1,9 @@
 import './main.css';
-const render = require('../ext.hbs');
+const render = require('./ext.hbs');
+let leftBarArr =[];
+let RightBarArr =[];
+let results = document.querySelector('#results');
+let variable = '+';
 
 function api(method, params) {
     return new Promise((resolve, reject) => {
@@ -28,48 +32,36 @@ const promise = new Promise((resolve, reject) => {
 }); 
 
 promise
-    .then(() => {
-        return api('users.get', { v: 5.68, fields: 'first_name, last_name, photo_100', name_case: 'gen' });
-    })
-    .then(data => {
-        const [user] = data;
-     /* 
-        headerInfo.innerHTML += `<div><img src=${user.photo_100}></div>`; */
-        headerInfo.innerHTML += `Друзья на странице ${user.first_name} ${user.last_name}`;
-       
-
+     .then(data => {
         return api('friends.get', { v: 5.68, fields: 'first_name, last_name, photo_100' })
-    })
+    }) 
     .then(data => {
-        const templateElement = document.querySelector('#user-template');
-        const source = templateElement.innerHTML,
-         //   render = Handlebars.compile(source),
-            template = render({ list: data.items });
-
-        results.innerHTML = template;
+     let insertleftTable = document.querySelector('#insertleftTable');
+       /*  const templateElement = document.querySelector('#user-template');
+        const source = templateElement.innerHTML, */
+       let template = render({ list: data.items, buttonView: variable });
+       insertleftTable.innerHTML = template;
+       
+    }).then(data => {
+       let button = document.querySelectorAll('#leftBar #button');
+        for (var i =0; i  < button.length; i++ ) {
+            button[i].innerHTML = '+';
+     /*        button[i].addEventListener('click', (e)=> {
+                console.log(e.target.parentNode.parentNode.innerHTML);
+                insertRightTable.innerHTML = rightBar.innerHTML + e.target.parentNode.parentNode.innerHTML;
+                e.target.parentNode.parentNode.remove();
+            }); */
+        } 
+        
     })
     .catch(function (e) {
         alert('Ошибка: ' + e.message);
     });
-/*     .then( (data) => {
-    var photo = document.querySelector('#photo');
-     var friendList =  document.querySelector('#results');
-        for (var i = 0; i < data.items.length; i++) {
-            friendList.innerHTML += `<div> <img src=${data.items[i].photo_100}> </div>`;
-            friendList.innerHTML += data.items[i].last_name;
-        
-        }
-    }) */
-
-   /*  
-    var check =  document.querySelector('#check');
-
-    var source =  document.querySelector('#entry-template').innerHTML;
-  
-   // var render = Handlebars.compile(source);  
-    var context = {title:"some;kj"};
-    var template = render(context); 
-    
-    check.innerHTML = template;
- */
  
+    results.addEventListener('click', (e) => {
+      
+        if (e.target.nodeName == 'BUTTON') {
+
+            console.log(e.target.parentNode.previousElementSibling.innerText);
+        }
+    })
