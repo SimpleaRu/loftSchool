@@ -73,3 +73,8 @@
   padding-top: 15px;
   padding-left: 15px;
  }
+ #button {
+   border-radius: 14px;
+   width: 28px;
+   height: 28px;
+ }
