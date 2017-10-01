@@ -2,11 +2,12 @@
   body {
     font-family: Helvetica, Arial, sans-serif;
   }
-  #leftBar {
-    width: 300px;
+  #leftBar,  #rightBar {
+    width: 307px;
     height: 325px;
-    overflow: scroll;
+    overflow: auto;
     display: inline-block;
+    overflow-x: hidden;
   }
   #avatar {
     height: 50px;
@@ -15,13 +16,61 @@
     height: 50px;
     width: 620px;
     background: #ff8663;
-    text-align: center;
+    border-radius: 10px 10px 0 0;
     color:white;
   
   }
-  #rightBar {
-    width: 300px;
-    height: 325px;
-    overflow: scroll;
-    display: inline-block;
-  }
+ .barContainer {
+  width: 307px;
+  height: 350px;
+
+  display: inline-block;
+ }
+ .youFriends{
+  width: 300px;
+  height: 20px;
+  display: inline-block;
+  margin: 5px 5px;
+  color: #4f4f4f;
+  font-weight: bold;
+ }
+ #footer {
+   width: 618px;
+   height: 50px;
+   background: #f0f0f0;
+   position: relative;
+   border-radius: 0 0 10px 10px;
+ }
+ #save{
+   background: #ff8663;
+   position: absolute;
+   top:10px;
+   left: 500px;
+   color: white;
+   padding: 5px;
+   border-radius: 10px;
+ }
+ #results, .container {
+   width: 620px;
+   height: 455px;
+ }
+
+ table {
+   width: 268px;
+ }
+ input {
+   border-radius: 10px;
+   border: 1px solid;
+   border-color: white;
+   margin: 5px 5px 5px 20px;
+ }
+ .inputs {
+   display: inline-block;
+   width: 620px;
+   height: 50px;
+   background: #f0f0f0;
+ }
+ #headerText {
+  padding-top: 15px;
+  padding-left: 15px;
+ }

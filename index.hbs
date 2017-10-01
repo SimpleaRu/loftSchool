@@ -9,29 +9,40 @@
 </head>
 <body>
 <div class="container">
-    <h3 id="headerInfo"></h3>
-    <div></div>
     <div id="results">
-        <div>
             <div id="title">
                 <div id="headerText">
-                    <b>Выберете друзей:</b>
+                    <b>Фильтруй друзей братишка:</b>
                 </div>
             </div>
-            <div id="leftBar">
-                <table>
-                    <tbody id="insertleftTable">
-                    </tbody>
-                </table>
-             </div>
-            <div id="rightBar">
-                <table>
-                    <tbody id="insertRightTable">
-                    </tbody>
-                </table>
+            <div class="inputs">
+                <input type="text" size="40" placeholder="Начни вводить имя друга" id="leftInput">
+                <input type="text" size="40" placeholder="Начни вводить имя друга" id="RightInput">
             </div>
-        </div>
+            <div class="barContainer">
+                
+                <p class="youFriends">Ваши друзья</p>
+                <div id="leftBar">
+                    <table>
+                        <tbody id="insertleftTable">
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+             <div class="barContainer">
+               
+                <p class="youFriends">Друзья в списке</p>
+                <div id="rightBar">
+                    <table>
+                        <tbody id="insertRightTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
     </div>  
+    <div id="footer">
+        <button id="save">Сохранить</button>
+    </div>
 </div>
  <script src="src/index.js"></script> 
 </body>
