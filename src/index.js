@@ -22,7 +22,6 @@ function api(method, params) {
         });
     });
 }
-
 const promise = new Promise((resolve, reject) => {
     VK.init({
         apiId: 6198589 

@@ -8,42 +8,7 @@
     <script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>
 </head>
 <body>
-<div class="container">
-    <div id="results">
-            <div id="title">
-                <div id="headerText">
-                    <b>Фильтруй друзей братишка:</b>
-                </div>
-            </div>
-            <div class="inputs">
-                <input type="text" size="40" placeholder="Начни вводить имя друга" id="leftInput">
-                <input type="text" size="40" placeholder="Начни вводить имя друга" id="RightInput">
-            </div>
-            <div class="barContainer">
-                
-                <p class="youFriends">Ваши друзья</p>
-                <div id="leftBar">
-                    <table>
-                        <tbody id="insertleftTable">
-                        </tbody>
-                    </table>
-                </div>
-             </div>
-             <div class="barContainer">
-               
-                <p class="youFriends">Друзья в списке</p>
-                <div id="rightBar">
-                    <table>
-                        <tbody id="insertRightTable">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-    </div>  
-    <div id="footer">
-        <button id="save">Сохранить</button>
-    </div>
-</div>
+{{> "src/structure.hbs"}}
  <script src="src/index.js"></script> 
 </body>
 </html>
