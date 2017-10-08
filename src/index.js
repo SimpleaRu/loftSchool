@@ -3,6 +3,8 @@ const render = require('./ext.hbs');
 let leftBarArr =[];
 let RightBarArr =[];
 let results = document.querySelector('#results');
+let avatar = document.querySelector('#avatar');
+//let tableString = document.querySelector('#tableString');
 let insertleftTable = document.querySelector('#insertleftTable');
 let insertRightTable = document.querySelector('#insertRightTable');
 let leftInput = document.querySelector('#leftInput');
@@ -10,6 +12,10 @@ let RightInput = document.querySelector('#RightInput');
 let save = document.querySelector('#save');
 let storageRightBar;
 let storageLeftBar;
+let footer = document.querySelector('#footer');
+let leftBar = document.querySelector('#leftBar');
+let rightBar = document.querySelector('#rightBar');
+
 
 function api(method, params) {
     return new Promise((resolve, reject) => {
@@ -63,6 +69,8 @@ promise
         leftInput.value = '';
         RightInput.value = '';
         console.log(leftBarArr.length, RightBarArr.length);
+       
+        
     })
     .catch(function (e) {
         alert('Ошибка: ' + e.message);
@@ -130,7 +138,93 @@ promise
         localStorage.setItem('rightBarSave', rightBarSave);
         localStorage.setItem('LeftBarSave', leftBarSave);
         
-    })
+    });
+ 
+// DnD part
+
+leftBar.addEventListener('mousedown', function(e) {
+      
+/*     
+    function dragableString (e) {
+        let x = e.target;
+        while ( x != null && x.id != 'tableString' ) {
+            x = x.parentNode;
+        }
+        return x;
+    } */
+
+   let  dragableStr = e.target.closest("#tableString")
+    
+    if (dragableStr) {
+        console.log(dragableStr);
+        var coords = getCoords(dragableStr);
+        var shiftX = e.pageX - coords.left;
+        var shiftY = e.pageY - coords.top;
+    
+                function getCoords(elem) { 
+                    var box = elem.getBoundingClientRect();
+                    return {
+                        top: box.top + pageYOffset,
+                        left: box.left + pageXOffset
+                    };
+                }
+
+                function move(e) {
+                    var xPosition, yPosition;
+                     dragableStr.style.left = e.pageX - shiftX + 'px';
+                     xPosition = dragableStr.style.left;
+                     dragableStr.style.top = e.pageY - shiftY + 'px';
+                     yPosition = dragableStr.style.top; 
+                     return {
+                        startX: xPosition,
+                        startY: yPosition
+                    } ;
+                }
+                            
+                document.onmousemove = function(e) {
+
+                    dragableStr.style.position = 'absolute';
+                    dragableStr.style.zIndex = '1000';
+                    move(e);
+                  }
+    
+                  results.addEventListener('mouseup', function(e) {
+                      
+                      dragableStr.style.position = 'static';
+                        document.onmousemove = null;
+                        dragableStr.hidden = true;
+                       let  temp = document.elementFromPoint(e.clientX, e.clientY) 
+                     //   console.log(temp);
+                        dragableStr.hidden = false;
+    
+                          
+                        if (temp.closest("#rightBar")) {
+                           let  friendDomName = dragableStr.firstElementChild.nextElementSibling.innerText;
+                            for (var i = 0; i < leftBarArr.length; i++) {
+                             let friendArrName = leftBarArr[i].first_name + ' ' + leftBarArr[i].last_name;
+                            
+                              if (friendDomName == friendArrName ) {
+                                leftBarArr[i].symbol = 'X';
+                                RightBarArr.push(leftBarArr[i]);
+                                leftBarArr.splice(i, 1);
+                
+                                if (leftInput.value == '' && RightInput.value == '' ) {
+                                    rendering(leftBarArr, insertleftTable);
+                                    rendering(RightBarArr, insertRightTable);
+                                }
+                                else {
+                                    leftInput.dispatchEvent(new KeyboardEvent('keyup'));
+                                    RightInput.dispatchEvent(new KeyboardEvent('keyup'));
+                                }
+                              } 
+                            }
+                        }
+                          dragableStr = null;
+                      });
+              }
+ 
+         
+    }); 
 
 function rendering(sourse, container) {
 
