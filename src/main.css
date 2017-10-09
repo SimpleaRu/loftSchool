@@ -38,16 +38,17 @@
    width: 618px;
    height: 50px;
    background: #f0f0f0;
-   position: absolute;
    border-radius: 0 0 10px 10px;
- }
- #save{
+  }
+  #save{
+   margin: 10px 20px 10px 0;
    background: #ff8663;
+   height: 30px;
+   width: 90px;
    float: right;
    top:10px;
    left: 500px;
    color: white;
-   padding: 5px;
    border-radius: 10px;
  }
  #results, .container {
@@ -61,13 +62,21 @@
    border-radius: 10px;
    border: 1px solid;
    border-color: white;
-   margin: 5px 5px 5px 20px;
+   width: 260px;
+  
+ }
+ #leftInput {
+   margin: auto 20px auto auto;
+ }
+ #RightInput{
+  margin: auto auto auto 20px;
  }
  .inputs {
-   display: inline-block;
+   display: flex;
    width: 620px;
    height: 50px;
    background: #f0f0f0;
+   
  }
  #headerText {
   padding-top: 15px;
@@ -78,4 +87,7 @@
    border-radius: 14px;
    width: 28px;
    height: 28px;
+ }
+  td {
+  border-bottom: 1px solid #f0f0f0;
  }
