@@ -1,93 +1,48 @@
-
-  body {
-    font-family: Helvetica, Arial, sans-serif;
-  }
-  #leftBar,  #rightBar {
-    width: 307px;
-    height: 325px;
-    overflow: auto;
-    display: inline-block;
-    overflow-x: hidden;
-  }
-  #avatar {
-    height: 50px;
-  }
-  #title {
-    height: 50px;
-    width: 620px;
-    background: #ff8663;
-    border-radius: 10px 10px 0 0;
-    color:white;
-  
-  }
- .barContainer {
-  width: 307px;
+body, html {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#map {
+  width: 100%;
+  height: 100%;
+}
+#form {
+  background: white;
+  position: absolute;
+  visibility: hidden;
+  width: 250px;
   height: 350px;
-
+  z-index: 1000;
+}
+#close {
+  float: right;
   display: inline-block;
- }
- .youFriends{
-  width: 300px;
-  height: 20px;
+}
+#address {
+  margin-left: 5px;
   display: inline-block;
-  margin: 5px 5px;
-  color: #4f4f4f;
-  font-weight: bold;
- }
- #footer {
-   width: 618px;
-   height: 50px;
-   background: #f0f0f0;
-   border-radius: 0 0 10px 10px;
-  }
-  #save{
-   margin: 10px 20px 10px 0;
-   background: #ff8663;
-   height: 30px;
-   width: 90px;
-   float: right;
-   top:10px;
-   left: 500px;
-   color: white;
-   border-radius: 10px;
- }
- #results, .container {
-   width: 620px;
-   height: 455px;
- }
- table {
-   width: 268px;
- }
- input {
-   border-radius: 10px;
-   border: 1px solid;
-   border-color: white;
-   width: 260px;
+  font-size: 12px;
   
- }
- #leftInput {
-   margin: auto 20px auto auto;
- }
- #RightInput{
-  margin: auto auto auto 20px;
- }
- .inputs {
-   display: flex;
-   width: 620px;
-   height: 50px;
-   background: #f0f0f0;
-   
- }
- #headerText {
-  padding-top: 15px;
-  padding-left: 15px;
- }
- #button {
-   
-   border-radius: 14px;
-   width: 28px;
-   height: 28px;
- }
-  td {
-  border-bottom: 1px solid #f0f0f0;
- }
+}
+#formContent {
+  width: 100%;
+  height: 100px;
+}
+ input {
+  width: 230px;
+  margin:5px 8px 5px 8px;
+}
+#inputComment {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  width: 230px;
+  height: 80px;
+  margin:5px 8px 5px 8px;
+  resize: none;
+}
+#inputTitle {
+  margin-left: 7px;
+}
