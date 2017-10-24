@@ -16,10 +16,16 @@ body, html {
   width: 250px;
   height: 350px;
   z-index: 1000;
+  border-radius: 10px;
 }
 #close {
+  margin-right: 10px;
+  background: #ff8e6d;
+  color: white;
   float: right;
   display: inline-block;
+  margin-top: 3px;
+  border-radius: 10px;
 }
 #address {
   margin-left: 5px;
@@ -29,11 +35,17 @@ body, html {
 }
 #formContent {
   width: 100%;
-  height: 100px;
+  height: 110px;
+  font-size: 14px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
  input {
   width: 230px;
   margin:5px 8px 5px 8px;
+  border-radius: 5px;
+  border: 1px solid;
+  border-color: rgb(214, 206, 206);
 }
 #inputComment {
   font-family: Arial, Helvetica, sans-serif;
@@ -42,7 +54,45 @@ body, html {
   height: 80px;
   margin:5px 8px 5px 8px;
   resize: none;
+  border-radius: 5px;
+  border: 1px solid;
+  border-color: rgb(214, 206, 206);
 }
 #inputTitle {
   margin-left: 7px;
+}
+#send {
+  float: right;
+  margin-right: 10px;
+  border-radius: 5px;
+  background: #ff8e6d;
+}
+#formFooter {
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0px;
+}
+#formHead {
+  background: #ff8e6d;
+  color: white;
+  border-radius: 10px 10px 0 0;
+  height: 30px;
+}
+#inputTitle {
+  color:#ff8e6d;
+}
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#link{
+  color: blue;
+  cursor: pointer;
+}
+.formCont{
+  color: rgb(141, 134, 134);
+}
+.nameColor {
+  color: black;
 }

@@ -4,21 +4,17 @@ let map = document.querySelector('#map');
 let form = document.querySelector('#form');
 let close = document.querySelector('#close');
 let address = document.querySelector('#address');
-//let input = document.querySelector('#input');
+let inputName = document.querySelector('#inputName');
+let inputPlace = document.querySelector('#inputPlace');
+let inputComment = document.querySelector('#inputComment');
 let send = document.querySelector('#send');
 let formContent = document.querySelector('#formContent');
 let clickCoords;
 let placeName;
-
-/* function geocode(address) {
-    return ymaps.geocode(address).then(result => {
-        const points = result.geoObjects.toArray();
-
-        if (points.length) {
-            return points[0].geometry.getCoordinates();
-        }
-    });
-} */
+let topCoords;
+let leftCoords;
+let plasemarksArr = [];
+let ardressString;
 
 let clusterer;
 new Promise(resolve => ymaps.ready(resolve))
@@ -34,56 +30,77 @@ new Promise(resolve => ymaps.ready(resolve))
        preset: 'islands#invertedVioletClusterIcons',
        clusterDisableClickZoom: true,
        openBalloonOnClick: true,
-       gridSize: 80
+       gridSize: 80,
+       clusterBalloonContentLayout: 'cluster#balloonCarousel',
     });
+
     myMap.geoObjects.add(clusterer);
 
     myMap.events.add('click', function (e) {
         clickCoords = e.get('coords');
+
+         topCoords = e.get('pagePixels')[1] + 'px';
+         leftCoords = e.get('pagePixels')[0] + 'px';
 
         ymaps.geocode(clickCoords).then(function(res) {
             var nearest = res.geoObjects.get(0);
             placeName = nearest.properties.get('name');
             console.log(placeName);
             address.innerHTML = placeName;
-
+            ardressString = placeName;
         }, 
             function (err) {
                 alert('Ошибка');
         });
-
-     form.style.top = e.get('pagePixels')[1] + 'px';
-     form.style.left = e.get('pagePixels')[0] + 'px';
-     form.style.visibility = 'visible';
-    // input.value = '';
-     formContent.innerHTML = '';
+     formRender(e);
     }); 
     
-
     send.addEventListener('click', (e) => {
-       
-        var myPlacemark = new ymaps.Placemark(clickCoords, {}, { preset:'islands#violetIcon' });
+    
+        var myPlacemark = new ymaps.Placemark(clickCoords, {}, {
+             preset:'islands#violetIcon'
+             });
         
-        myPlacemark.properties.set({
-        //    balloonContentBody:  input.value,
-            clusterCaption: 'n01'
-        });
+        let mark = {
+             name: inputName.value,
+             location: inputPlace.value,
+             comment: inputComment.value,
+             adress: ardressString,
+             coords: clickCoords,
+             date:  takeDate()
+        }
+
+       myPlacemark.properties.set({
+            balloonContentHeader: inputPlace.value,
+            balloonContentBody: `<p data-coords='${clickCoords}' id='placemarkCoords'><span id='link'>${ardressString}</span> </p>`,
+            balloonContentFooter: inputComment.value 
+        }); 
 
         myMap.geoObjects.add(myPlacemark);
+       plasemarksArr.push(mark);
+            formContent.innerHTML +=  formContentBuilder(mark.name, mark.location, mark.comment, mark.date  ); 
 
         myPlacemark.events.add('click', (e) => {
-            clickCoords = e.get('coords');
-            form.style.top = e.get('pagePixels')[1] + 'px';
-            form.style.left = e.get('pagePixels')[0] + 'px';
-            form.style.visibility = 'visible';
-            form.style.zIndex = '1000';
-            formContent.innerHTML =  myPlacemark.properties.get('balloonContentBody');
-
-            e.preventDefault();
             
+            e.preventDefault();
+            var thisPlacemark = e.get('target');
+            var coordsTarget = thisPlacemark.geometry.getCoordinates();
+
+            clickCoords = coordsTarget;
+            setAdress(clickCoords);
+
+            formRender(e);
+            for (var i = 0; i < plasemarksArr.length; i++) {
+               if (coordsTarget == plasemarksArr[i].coords ) {
+                   
+                    formContent.innerHTML +=  formContentBuilder(plasemarksArr[i].name, plasemarksArr[i].location, plasemarksArr[i].comment, plasemarksArr[i].date);
+               }
+            }
         });
-            clusterer.add(myPlacemark);
-        
+            clusterer.add(myPlacemark); 
+            inputName.value = '';
+            inputPlace.value = '';
+            inputComment.value = '';
     });
      
 });
@@ -92,3 +109,74 @@ new Promise(resolve => ymaps.ready(resolve))
         form.style.visibility = 'hidden';
     });
 
+function formRender(e, top, left) {
+    if( top || left) {
+        form.style.top = top;
+        form.style.left = left;
+    }
+    else {
+        form.style.top = e.get('pagePixels')[1] + 'px';
+        form.style.left = e.get('pagePixels')[0] + 'px';
+    }
+    form.style.visibility = 'visible';
+    form.style.zIndex = '1000';
+    inputName.value = '';
+    inputPlace.value = '';
+    inputComment.value = '';
+    formContent.innerHTML = '';
+}
+
+function formContentBuilder(name, location, comment, date ) {
+ return   `<p class='formCont'><b class='nameColor'> ${name}</b> ${location} ${date} </p> <p class='formCont'> ${comment} </p>`;
+}
+
+function takeDate () {
+    var now = new Date();
+    let year =  now.getFullYear();
+    let month = now.getMonth();
+    let day =  now.getDate();
+    let hour =  now.getHours();
+    let muinets =  now.getMinutes();
+    let seconds =  now.getSeconds();
+    let string = year+'.'+month+'.'+day+' '+hour +':'+muinets +':'+seconds;
+    return string;
+    
+}
+
+function setAdress(coords) {
+    ymaps.geocode(coords).then(function(res) {
+        var nearest = res.geoObjects.get(0);
+        placeName = nearest.properties.get('name');
+        console.log(placeName);
+        address.innerHTML = placeName;
+        ardressString = placeName;
+    }, 
+        function (err) {
+            alert('Ошибка');
+    });
+}
+
+document.addEventListener('click', (e) => {
+    if (e.target.id == 'link') {
+      
+
+        myMap.balloon.close();
+        formRender(null, e.pageX, e.pageY);
+        let coords = e.target.parentNode.dataset.coords;
+        console.log(coords);
+        let backCoords = coords.split(',');
+        let arrBackCoords = backCoords.map((coord) => {
+            return +coord;
+        });
+        clickCoords = arrBackCoords;
+        setAdress(clickCoords);
+
+         for (var i = 0; i < plasemarksArr.length; i++) {
+   
+             if (coords == plasemarksArr[i].coords.join(',') ) {
+                formContent.innerHTML +=  formContentBuilder(plasemarksArr[i].name, plasemarksArr[i].location, plasemarksArr[i].comment, plasemarksArr[i].date );  
+               
+            }
+         }
+    }
+});
