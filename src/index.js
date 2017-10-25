@@ -26,33 +26,34 @@ new Promise(resolve => ymaps.ready(resolve))
         searchControlProvider: 'yandex#search'
     });
 
+    var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+        // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
+        '<h2 class=ballon_header>{{ properties.balloonContentHeader|raw }}</h2>' +
+        '<div class=ballon_body>{{ properties.balloonContentBody|raw }}</div>' +
+        '<div class=ballon_footer>{{ properties.balloonContentFooter|raw }}</div>'
+    );
+
     clusterer = new ymaps.Clusterer({
        preset: 'islands#invertedVioletClusterIcons',
        clusterDisableClickZoom: true,
        openBalloonOnClick: true,
        gridSize: 80,
        clusterBalloonContentLayout: 'cluster#balloonCarousel',
+       clusterBalloonItemContentLayout: customItemContentLayout
     });
 
     myMap.geoObjects.add(clusterer);
+    clusterer.events.add('click', (e) => {
+        
+    })
 
     myMap.events.add('click', function (e) {
-        clickCoords = e.get('coords');
-
+         clickCoords = e.get('coords');
          topCoords = e.get('pagePixels')[1] + 'px';
          leftCoords = e.get('pagePixels')[0] + 'px';
 
-        ymaps.geocode(clickCoords).then(function(res) {
-            var nearest = res.geoObjects.get(0);
-            placeName = nearest.properties.get('name');
-            console.log(placeName);
-            address.innerHTML = placeName;
-            ardressString = placeName;
-        }, 
-            function (err) {
-                alert('Ошибка');
-        });
-     formRender(e);
+         setAdress(clickCoords);
+         formRender(e);
     }); 
     
     send.addEventListener('click', (e) => {
@@ -72,8 +73,10 @@ new Promise(resolve => ymaps.ready(resolve))
 
        myPlacemark.properties.set({
             balloonContentHeader: inputPlace.value,
-            balloonContentBody: `<p data-coords='${clickCoords}' id='placemarkCoords'><span id='link'>${ardressString}</span> </p>`,
-            balloonContentFooter: inputComment.value 
+            balloonContentBody: `<p data-coords='${clickCoords}' id='placemarkCoords'>
+                                 <span id='link'>${ardressString}</span> </p>
+                                 <p> ${inputComment.value} `,
+            balloonContentFooter: takeDate()
         }); 
 
         myMap.geoObjects.add(myPlacemark);
@@ -138,9 +141,9 @@ function takeDate () {
     let hour =  now.getHours();
     let muinets =  now.getMinutes();
     let seconds =  now.getSeconds();
+        month += 1;
     let string = year+'.'+month+'.'+day+' '+hour +':'+muinets +':'+seconds;
-    return string;
-    
+    return string;  
 }
 
 function setAdress(coords) {
@@ -159,7 +162,6 @@ function setAdress(coords) {
 document.addEventListener('click', (e) => {
     if (e.target.id == 'link') {
       
-
         myMap.balloon.close();
         formRender(null, e.pageX, e.pageY);
         let coords = e.target.parentNode.dataset.coords;

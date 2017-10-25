@@ -96,3 +96,10 @@ p {
 .nameColor {
   color: black;
 }
+
+.ballon_footer { 
+  font-size: 12px; 
+  text-align: right; 
+  color: rgb(141, 134, 134); 
+  margin-top: 10px; 
+}
