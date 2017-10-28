@@ -109,7 +109,7 @@ new Promise(resolve => ymaps.ready(resolve))
 });
 
     close.addEventListener('click', (e) => {
-        form.style.visibility = 'hidden';
+        form.style.display = 'none';
     });
 
 function formRender(e, top, left) {
@@ -121,7 +121,7 @@ function formRender(e, top, left) {
         form.style.top = e.get('pagePixels')[1] + 'px';
         form.style.left = e.get('pagePixels')[0] + 'px';
     }
-    form.style.visibility = 'visible';
+    form.style.display = 'block';
     form.style.zIndex = '1000';
     inputName.value = '';
     inputPlace.value = '';
